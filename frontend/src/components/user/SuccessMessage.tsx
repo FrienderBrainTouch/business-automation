@@ -33,38 +33,14 @@ export default function SuccessMessage({ email }: SuccessMessageProps) {
         </div>
 
         <div className="text-sm text-gray-600 space-y-2 mb-6">
-          <p>📧 이메일이 도착하지 않으면 스팸함을 확인해주세요.</p>
-          <p>💡 더 자세한 컨설팅이 필요하시면 아래로 문의해주세요.</p>
+          <p>📧 이메일이 도착하지 않으면 스팸함을 확인해 주세요.</p>
+          <p>💡 더 자세한 컨설팅이 필요하시면 아래로 문의해 주세요.</p>
         </div>
 
         <a href="mailto:contact@hangyeol-center.com" className="inline-block btn-primary">
           한결 경영혁신센터 문의하기
         </a>
       </div>
-
-      {/* PDF 미리보기 (선택적) */}
-      {/* {pdfViewUrl && (
-        <div className="card mt-6">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">생성된 문서 미리보기</h3>
-          <div className="relative w-full" style={{ paddingBottom: '141.4%' }}>
-            <iframe
-              src={pdfViewUrl}
-              className="absolute top-0 left-0 w-full h-full border border-gray-300 rounded"
-              title="PDF 미리보기"
-            />
-          </div>
-          <div className="mt-4 text-center">
-            <a
-              href={pdfViewUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-secondary"
-            >
-              새 창에서 보기
-            </a>
-          </div>
-        </div>
-      )} */}
     </div>
   );
 }

@@ -22,16 +22,6 @@ export default function AdminTable({ records, onViewPdf }: AdminTableProps) {
     }
   };
 
-  // const formatDateOnly = (dateStr: string) => {
-  //   if (!dateStr) return '-';
-  //   try {
-  //     const date = new Date(dateStr);
-  //     return date.toLocaleDateString('ko-KR');
-  //   } catch {
-  //     return dateStr;
-  //   }
-  // };
-
   return (
     <div className="overflow-x-auto">
       <table className="w-full border-collapse bg-white shadow-sm">
@@ -44,9 +34,7 @@ export default function AdminTable({ records, onViewPdf }: AdminTableProps) {
             <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">이메일</th>
             <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">연락처</th>
             <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">희망과제</th>
-            {/* <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">발송예정</th> */}
             <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">발송여부</th>
-            {/* <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">발송시간</th> */}
             <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">PDF</th>
           </tr>
         </thead>
@@ -73,10 +61,7 @@ export default function AdminTable({ records, onViewPdf }: AdminTableProps) {
                 <td className="px-4 py-3 text-sm text-gray-800">{record.name}</td>
                 <td className="px-4 py-3 text-sm text-gray-600">{record.email}</td>
                 <td className="px-4 py-3 text-sm text-gray-600">{record.phone}</td>
-                {/* <td className="px-4 py-3 text-sm text-gray-600">{record.desiredSupport || '-'}</td> */}
-                {/* <td className="px-4 py-3 text-sm text-gray-600 text-center whitespace-nowrap">
-                  {formatDateOnly(record.sendDueDate)}
-                </td> */}
+                <td className="px-4 py-3 text-sm text-gray-600">{record.desiredSupport}</td>
                 <td className="px-4 py-3 text-center">
                   {record.sentFlag ? (
                     <span className="inline-flex items-center px-2 py-1 text-xs font-medium text-green-700 bg-green-100 rounded">
@@ -87,9 +72,6 @@ export default function AdminTable({ records, onViewPdf }: AdminTableProps) {
                       대기중
                     </span>
                   )}
-                </td>
-                <td className="px-4 py-3 text-sm text-gray-600 text-center whitespace-nowrap">
-                  {record.sentAt ? formatDate(record.sentAt) : '-'}
                 </td>
                 <td className="px-4 py-3 text-center">
                   {record.pdfViewUrl ? (

@@ -1,16 +1,27 @@
 import { useState, useEffect } from 'react';
-import { AdminTable, PdfModal } from '../components/admin';
+// 유틸
 // import { fetchSubmissionList, SubmissionRecord } from '../utils/api';
 import { SubmissionRecord } from '../utils/api';
+// 컴포넌트
+import { AdminTable, PdfModal, Auth } from '../components/admin';
 
 export default function Admin() {
   const [records, setRecords] = useState<SubmissionRecord[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
+  // PDF 모달 상태
   const [selectedPdf, setSelectedPdf] = useState<{
     url: string;
     title: string;
   } | null>(null);
+  // 관리자 로그인 상태
+  const [adminUnlocked, setAdminUnlocked] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem('isAdmin') === '1';
+    } catch {
+      return false;
+    }
+  });
 
   useEffect(() => {
     loadRecords();
@@ -90,14 +101,6 @@ export default function Admin() {
     }
   };
 
-  const handleClosePdfModal = () => {
-    setSelectedPdf(null);
-  };
-
-  const handleRefresh = () => {
-    loadRecords();
-  };
-
   // 통계 계산
   const stats = {
     total: records.length,
@@ -105,77 +108,127 @@ export default function Admin() {
     pending: records.filter((r) => !r.sentFlag).length,
   };
 
+  if (!adminUnlocked) {
+    return <Auth setAdminUnlocked={setAdminUnlocked} />;
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* 헤더 */}
       <header className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
+            {/* 헤역더 좌측 */}
             <div>
               <h1 className="text-2xl font-bold text-gray-800">관리자 대시보드</h1>
               <p className="text-sm text-gray-600 mt-1">사업계획서 사전진단 제출 현황</p>
             </div>
+            {/* 헤더 우측 */}
             <button
-              onClick={handleRefresh}
-              disabled={isLoading}
-              className="btn-primary flex items-center gap-2"
+              onClick={() => {
+                // logout admin (client-side)
+                try {
+                  localStorage.removeItem('isAdmin');
+                } catch (e) {
+                  console.warn('Unable to remove admin flag from localStorage', e);
+                }
+                window.location.reload();
+              }}
+              className="ml-3 text-sm text-gray-600"
             >
-              <svg
-                className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                />
-              </svg>
-              새로고침
+              로그아웃
             </button>
           </div>
         </div>
       </header>
 
-      {/* 메인 컨텐츠 */}
       <main className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
-        {/* 통계 카드 */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-          <div className="card">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">전체 제출</p>
-                <p className="text-3xl font-bold text-gray-800 mt-1">{stats.total}</p>
+        {/* 통계 카드 및 새로고침 버튼 */}
+        <div className="flex items-start justify-between mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 flex-1">
+            <div className="card">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-gray-600">전체 제출</p>
+                  <p className="text-3xl font-bold text-gray-800 mt-1">{stats.total}</p>
+                </div>
+                <div className="p-3 bg-blue-100 rounded-full">
+                  <svg
+                    className="w-8 h-8 text-blue-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
+                  </svg>
+                </div>
               </div>
-              <div className="p-3 bg-blue-100 rounded-full">
-                <svg
-                  className="w-8 h-8 text-blue-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                  />
-                </svg>
+            </div>
+
+            <div className="card">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-gray-600">발송 완료</p>
+                  <p className="text-3xl font-bold text-green-600 mt-1">{stats.sent}</p>
+                </div>
+                <div className="p-3 bg-green-100 rounded-full">
+                  <svg
+                    className="w-8 h-8 text-green-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <div className="card">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-gray-600">발송 대기</p>
+                  <p className="text-3xl font-bold text-yellow-600 mt-1">{stats.pending}</p>
+                </div>
+                <div className="p-3 bg-yellow-100 rounded-full">
+                  <svg
+                    className="w-8 h-8 text-yellow-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                </div>
               </div>
             </div>
           </div>
 
-          <div className="card">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">발송 완료</p>
-                <p className="text-3xl font-bold text-green-600 mt-1">{stats.sent}</p>
-              </div>
-              <div className="p-3 bg-green-100 rounded-full">
+          <div className="ml-4 flex-shrink-0">
+            <div className="h-full flex items-center justify-center">
+              <button
+                onClick={() => loadRecords()}
+                disabled={isLoading}
+                className="flex items-center gap-2 p-10 bg-blue-500 text-white rounded-lg shadow-sm hover:bg-blue-600 disabled:opacity-50"
+                aria-label="새로고침"
+              >
                 <svg
-                  className="w-8 h-8 text-green-600"
+                  className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''} text-white`}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -184,34 +237,11 @@ export default function Admin() {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
                   />
                 </svg>
-              </div>
-            </div>
-          </div>
-
-          <div className="card">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">발송 대기</p>
-                <p className="text-3xl font-bold text-yellow-600 mt-1">{stats.pending}</p>
-              </div>
-              <div className="p-3 bg-yellow-100 rounded-full">
-                <svg
-                  className="w-8 h-8 text-yellow-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-              </div>
+                새로고침
+              </button>
             </div>
           </div>
         </div>
@@ -259,7 +289,7 @@ export default function Admin() {
       {selectedPdf && (
         <PdfModal
           isOpen={!!selectedPdf}
-          onClose={handleClosePdfModal}
+          onClose={() => setSelectedPdf(null)}
           pdfUrl={selectedPdf.url}
           title={selectedPdf.title}
         />
