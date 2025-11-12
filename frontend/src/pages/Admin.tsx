@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { AdminTable, PdfModal } from '../components/admin';
-import { fetchSubmissionList, SubmissionRecord } from '../utils/api';
+// import { fetchSubmissionList, SubmissionRecord } from '../utils/api';
+import { SubmissionRecord } from '../utils/api';
 
 export default function Admin() {
   const [records, setRecords] = useState<SubmissionRecord[]>([]);
@@ -11,25 +12,69 @@ export default function Admin() {
     title: string;
   } | null>(null);
 
-  // 초기 데이터 로드
   useEffect(() => {
     loadRecords();
   }, []);
 
+  // 더미 로드 함수
   const loadRecords = async () => {
     setIsLoading(true);
     setError('');
 
     try {
-      const response = await fetchSubmissionList();
+      // 실제 호출
+      // const response = await fetchSubmissionList();
+      // if (response.ok && response.data) {
+      //   setRecords(response.data);
+      // } else {
+      //   setError(response.error || '데이터를 불러올 수 없습니다.');
+      // }
 
-      if (response.ok && response.data) {
-        setRecords(response.data);
-      } else {
-        setError(response.error || '데이터를 불러올 수 없습니다.');
-      }
+      // 더미 데이터
+      await new Promise((res) => setTimeout(res, 600));
+      const now = new Date().toISOString();
+      const dummy: SubmissionRecord[] = [
+        {
+          timestamp: now,
+          name: '홍길동',
+          email: 'hong@example.com',
+          phone: '010-1234-5678',
+          companyName: '한결 경영혁신센터',
+          businessNumber: '123-45-67890',
+          desiredSupport: '초기창업패키지',
+          businessIdea: 'AI 기반 고객 상담 자동화 플랫폼',
+          problemStatement: '중소기업의 고객응대 비용과 품질 편차 문제',
+          developmentStage: '시제품 단계',
+          pdfFileId: 'file_abc123',
+          pdfViewUrl: 'https://example.com/sample.pdf',
+          sendDueDate: '',
+          sentFlag: false,
+          sentAt: '',
+          error: '',
+        },
+        {
+          timestamp: now,
+          name: '김창업',
+          email: 'kim@example.com',
+          phone: '010-9876-5432',
+          companyName: '스타트업랩',
+          businessNumber: '987-65-43210',
+          desiredSupport: '기술개발·R&D',
+          businessIdea: '저전력 IoT 센서 네트워크',
+          problemStatement: '정밀 환경모니터링 비용 문제',
+          developmentStage: '아이디어 단계',
+          pdfFileId: 'file_def456',
+          pdfViewUrl: '',
+          sendDueDate: '',
+          sentFlag: true,
+          sentAt: now,
+          error: '',
+        },
+      ];
+
+      setRecords(dummy);
     } catch (err) {
-      setError('네트워크 오류가 발생했습니다.');
+      setError('데이터를 불러오는 중 오류가 발생했습니다.');
       console.error('Load records error:', err);
     } finally {
       setIsLoading(false);
