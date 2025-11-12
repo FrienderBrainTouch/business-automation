@@ -1,9 +1,9 @@
 interface SuccessMessageProps {
-  email: string
-  pdfViewUrl?: string
+  email: string;
+  pdfViewUrl?: string;
 }
 
-const SuccessMessage = ({ email, pdfViewUrl }: SuccessMessageProps) => {
+export default function SuccessMessage({ email, pdfViewUrl }: SuccessMessageProps) {
   return (
     <div className="max-w-3xl mx-auto">
       <div className="card text-center">
@@ -23,14 +23,10 @@ const SuccessMessage = ({ email, pdfViewUrl }: SuccessMessageProps) => {
           </svg>
         </div>
 
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">
-          제출이 완료되었습니다!
-        </h2>
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">제출이 완료되었습니다!</h2>
 
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
-          <p className="text-lg text-gray-700 mb-2">
-            제출 감사합니다.
-          </p>
+          <p className="text-lg text-gray-700 mb-2">제출 감사합니다.</p>
           <p className="text-lg font-semibold text-blue-700">
             내일 오후 2시에 <span className="underline">{email}</span>로<br />
             사업계획서 초안을 보내드릴게요.
@@ -42,10 +38,7 @@ const SuccessMessage = ({ email, pdfViewUrl }: SuccessMessageProps) => {
           <p>💡 더 자세한 컨설팅이 필요하시면 아래로 문의해주세요.</p>
         </div>
 
-        <a
-          href="mailto:contact@hangyeol-center.com"
-          className="inline-block btn-primary"
-        >
+        <a href="mailto:contact@hangyeol-center.com" className="inline-block btn-primary">
           한결 경영혁신센터 문의하기
         </a>
       </div>
@@ -53,9 +46,7 @@ const SuccessMessage = ({ email, pdfViewUrl }: SuccessMessageProps) => {
       {/* PDF 미리보기 (선택적) */}
       {pdfViewUrl && (
         <div className="card mt-6">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">
-            생성된 문서 미리보기
-          </h3>
+          <h3 className="text-lg font-semibold text-gray-800 mb-4">생성된 문서 미리보기</h3>
           <div className="relative w-full" style={{ paddingBottom: '141.4%' }}>
             <iframe
               src={pdfViewUrl}
@@ -76,7 +67,5 @@ const SuccessMessage = ({ email, pdfViewUrl }: SuccessMessageProps) => {
         </div>
       )}
     </div>
-  )
+  );
 }
-
-export default SuccessMessage

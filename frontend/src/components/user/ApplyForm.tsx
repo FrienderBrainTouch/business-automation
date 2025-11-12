@@ -1,12 +1,12 @@
-import { useState, FormEvent } from 'react'
-import { ApplicationData } from '../utils/api'
+import { useState, FormEvent } from 'react';
+import { ApplicationData } from '../../utils/api';
 
 interface ApplyFormProps {
-  onSubmit: (data: ApplicationData) => Promise<void>
-  isSubmitting: boolean
+  onSubmit: (data: ApplicationData) => Promise<void>;
+  isSubmitting: boolean;
 }
 
-const ApplyForm = ({ onSubmit, isSubmitting }: ApplyFormProps) => {
+export default function ApplyForm({ onSubmit, isSubmitting }: ApplyFormProps) {
   const [formData, setFormData] = useState<ApplicationData>({
     name: '',
     email: '',
@@ -17,17 +17,19 @@ const ApplyForm = ({ onSubmit, isSubmitting }: ApplyFormProps) => {
     businessIdea: '',
     targetMarket: '',
     competitiveness: '',
-  })
+  });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target
-    setFormData(prev => ({ ...prev, [name]: value }))
-  }
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault()
-    await onSubmit(formData)
-  }
+    e.preventDefault();
+    await onSubmit(formData);
+  };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
@@ -100,7 +102,9 @@ const ApplyForm = ({ onSubmit, isSubmitting }: ApplyFormProps) => {
               onChange={handleChange}
               placeholder="example@company.com"
             />
-            <p className="text-xs text-gray-500 mt-1">내일 오후 2시에 이 이메일로 사업계획서 초안을 보내드립니다.</p>
+            <p className="text-xs text-gray-500 mt-1">
+              내일 오후 2시에 이 이메일로 사업계획서 초안을 보내드립니다.
+            </p>
           </div>
 
           <div>
@@ -223,7 +227,5 @@ const ApplyForm = ({ onSubmit, isSubmitting }: ApplyFormProps) => {
         </button>
       </div>
     </form>
-  )
+  );
 }
-
-export default ApplyForm
