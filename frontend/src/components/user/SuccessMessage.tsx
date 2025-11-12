@@ -1,9 +1,8 @@
 interface SuccessMessageProps {
   email: string;
-  pdfViewUrl?: string;
 }
 
-export default function SuccessMessage({ email, pdfViewUrl }: SuccessMessageProps) {
+export default function SuccessMessage({ email }: SuccessMessageProps) {
   return (
     <div className="max-w-3xl mx-auto">
       <div className="card text-center">
@@ -44,7 +43,7 @@ export default function SuccessMessage({ email, pdfViewUrl }: SuccessMessageProp
       </div>
 
       {/* PDF 미리보기 (선택적) */}
-      {pdfViewUrl && (
+      {/* {pdfViewUrl && (
         <div className="card mt-6">
           <h3 className="text-lg font-semibold text-gray-800 mb-4">생성된 문서 미리보기</h3>
           <div className="relative w-full" style={{ paddingBottom: '141.4%' }}>
@@ -65,7 +64,7 @@ export default function SuccessMessage({ email, pdfViewUrl }: SuccessMessageProp
             </a>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 }

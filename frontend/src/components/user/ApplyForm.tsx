@@ -15,8 +15,12 @@ export default function ApplyForm({ onSubmit, isSubmitting }: ApplyFormProps) {
     businessNumber: '',
     desiredSupport: '',
     businessIdea: '',
+    problemStatement: '',
+    developmentStage: '',
     targetMarket: '',
+    customerAndValue: '',
     competitiveness: '',
+    goals: '',
   });
 
   const handleChange = (
@@ -66,11 +70,11 @@ export default function ApplyForm({ onSubmit, isSubmitting }: ApplyFormProps) {
               className="input-field"
               value={formData.name}
               onChange={handleChange}
-              placeholder="홍길동"
+              placeholder="예: 홍길동"
             />
           </div>
 
-          <div>
+          {/* <div>
             <label className="label" htmlFor="businessNumber">
               사업자 등록번호 <span className="text-red-500">*</span>
             </label>
@@ -86,7 +90,7 @@ export default function ApplyForm({ onSubmit, isSubmitting }: ApplyFormProps) {
               pattern="[0-9]{3}-[0-9]{2}-[0-9]{5}"
             />
             <p className="text-xs text-gray-500 mt-1">형식: 000-00-00000</p>
-          </div>
+          </div> */}
 
           <div>
             <label className="label" htmlFor="email">
@@ -103,7 +107,7 @@ export default function ApplyForm({ onSubmit, isSubmitting }: ApplyFormProps) {
               placeholder="example@company.com"
             />
             <p className="text-xs text-gray-500 mt-1">
-              내일 오후 2시에 이 이메일로 사업계획서 초안을 보내드립니다.
+              다음날 오후 2시에 작성하신 이메일로 사업계획서 초안을 보내드립니다.
             </p>
           </div>
 
@@ -141,7 +145,11 @@ export default function ApplyForm({ onSubmit, isSubmitting }: ApplyFormProps) {
               <option value="예비창업패키지">예비창업패키지</option>
               <option value="초기창업패키지">초기창업패키지</option>
               <option value="창업도약패키지">창업도약패키지</option>
-              <option value="TIPS">TIPS</option>
+              <option value="청년창업사관학교">청년창업사관학교</option>
+              <option value="기술개발·R&D">기술개발·R&D</option>
+              <option value="데이터 바우처 지원사업">데이터 바우처 지원사업</option>
+              <option value="수출 바우처 지원사업">수출 바우처 지원사업</option>
+              <option value="제조혁신 바우처 지원사업">제조혁신 바우처 지원사업</option>
               <option value="기타">기타</option>
             </select>
           </div>
@@ -155,7 +163,7 @@ export default function ApplyForm({ onSubmit, isSubmitting }: ApplyFormProps) {
         <div className="space-y-4">
           <div>
             <label className="label" htmlFor="businessIdea">
-              사업 아이디어 개요 <span className="text-red-500">*</span>
+              사업의 핵심 내용 <span className="text-red-500">*</span>
             </label>
             <textarea
               id="businessIdea"
@@ -165,13 +173,96 @@ export default function ApplyForm({ onSubmit, isSubmitting }: ApplyFormProps) {
               className="input-field resize-none"
               value={formData.businessIdea}
               onChange={handleChange}
-              placeholder="귀사의 사업 아이템에 대해 자유롭게 설명해주세요. (최소 100자)"
+              placeholder="현재 진행 중이거나 추진하려는 사업의 핵심을 간결하고 구체적으로 적어 주세요. (핵심 기능/서비스 및 제공하는 가치)"
               minLength={100}
             />
-            <p className="text-xs text-gray-500 mt-1">현재: {formData.businessIdea.length}자</p>
+            <p className="text-xs text-gray-500 mt-1">
+              현재: {formData.businessIdea.length}자/100자
+            </p>
           </div>
 
           <div>
+            <label className="label" htmlFor="problemStatement">
+              해결하려는 문제 / 사회적·기술적 필요성 <span className="text-red-500">*</span>
+            </label>
+            <textarea
+              id="problemStatement"
+              name="problemStatement"
+              required
+              rows={4}
+              className="input-field resize-none"
+              value={formData.problemStatement}
+              onChange={handleChange}
+              placeholder="이 사업이 해결하고자 하는 문제는 무엇인가요? (누가, 어떤 불편을 겪고 있는지, 기존 솔루션의 한계 등)"
+              minLength={50}
+            />
+            <p className="text-xs text-gray-500 mt-1">
+              현재: {formData.problemStatement.length}자/50자
+            </p>
+          </div>
+
+          <div>
+            <label className="label" htmlFor="developmentStage">
+              현재 개발 단계 <span className="text-red-500">*</span>
+            </label>
+            <select
+              id="developmentStage"
+              name="developmentStage"
+              required
+              className="input-field"
+              value={formData.developmentStage}
+              onChange={handleChange}
+            >
+              <option value="">선택하세요</option>
+              <option value="아이디어 단계">아이디어 단계</option>
+              <option value="시제품 단계">시제품 단계</option>
+              <option value="서비스 운영 중">서비스 운영 중</option>
+              <option value="매출 발생 중">매출 발생 중</option>
+            </select>
+            <p className="text-xs text-gray-500 mt-1">
+              현재 단계에 가장 가까운 항목을 선택해 주세요.
+            </p>
+          </div>
+
+          <div>
+            <label className="label" htmlFor="customerAndValue">
+              주요 고객 및 제공 가치 <span className="text-red-500">*</span>
+            </label>
+            <textarea
+              id="customerAndValue"
+              name="customerAndValue"
+              required
+              rows={4}
+              className="input-field resize-none"
+              value={formData.customerAndValue}
+              onChange={handleChange}
+              placeholder="주요 고객(또는 사용자)은 누구이며, 귀사가 제공하는 핵심 가치는 무엇인가요?"
+              minLength={50}
+            />
+            <p className="text-xs text-gray-500 mt-1">
+              현재: {formData.customerAndValue.length}자/50자
+            </p>
+          </div>
+
+          <div>
+            <label className="label" htmlFor="goals">
+              지원을 통해 달성하고 싶은 목표 <span className="text-red-500">*</span>
+            </label>
+            <textarea
+              id="goals"
+              name="goals"
+              required
+              rows={4}
+              className="input-field resize-none"
+              value={formData.goals}
+              onChange={handleChange}
+              placeholder="지원 과제를 통해 구체적으로 달성하고 싶은 목표(성과지표, 기간, 기대효과 등)를 적어 주세요."
+              minLength={50}
+            />
+            <p className="text-xs text-gray-500 mt-1">현재: {formData.goals.length}자/50자</p>
+          </div>
+
+          {/* <div>
             <label className="label" htmlFor="targetMarket">
               목표 시장 및 고객층 <span className="text-red-500">*</span>
             </label>
@@ -183,10 +274,12 @@ export default function ApplyForm({ onSubmit, isSubmitting }: ApplyFormProps) {
               className="input-field resize-none"
               value={formData.targetMarket}
               onChange={handleChange}
-              placeholder="목표로 하는 시장과 고객층에 대해 설명해주세요."
+              placeholder="목표로 하는 시장과 고객층에 대해 설명해 주세요."
               minLength={50}
             />
-            <p className="text-xs text-gray-500 mt-1">현재: {formData.targetMarket.length}자</p>
+            <p className="text-xs text-gray-500 mt-1">
+              현재: {formData.targetMarket.length}자/50자
+            </p>
           </div>
 
           <div>
@@ -201,11 +294,13 @@ export default function ApplyForm({ onSubmit, isSubmitting }: ApplyFormProps) {
               className="input-field resize-none"
               value={formData.competitiveness}
               onChange={handleChange}
-              placeholder="기존 경쟁사 대비 귀사의 경쟁력과 차별점을 설명해주세요."
+              placeholder="기존 경쟁사 대비 귀사의 경쟁력과 차별점을 설명해 주세요."
               minLength={50}
             />
-            <p className="text-xs text-gray-500 mt-1">현재: {formData.competitiveness.length}자</p>
-          </div>
+            <p className="text-xs text-gray-500 mt-1">
+              현재: {formData.competitiveness.length}자/50자
+            </p>
+          </div> */}
         </div>
       </div>
 
