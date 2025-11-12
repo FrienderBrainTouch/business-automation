@@ -1,36 +1,36 @@
-import { SubmissionRecord } from '../utils/api'
+import { SubmissionRecord } from '../../utils/api';
 
 interface AdminTableProps {
-  records: SubmissionRecord[]
-  onViewPdf: (record: SubmissionRecord, index: number) => void
+  records: SubmissionRecord[];
+  onViewPdf: (record: SubmissionRecord, index: number) => void;
 }
 
-const AdminTable = ({ records, onViewPdf }: AdminTableProps) => {
+export default function AdminTable({ records, onViewPdf }: AdminTableProps) {
   const formatDate = (dateStr: string) => {
-    if (!dateStr) return '-'
+    if (!dateStr) return '-';
     try {
-      const date = new Date(dateStr)
+      const date = new Date(dateStr);
       return date.toLocaleString('ko-KR', {
         year: 'numeric',
         month: '2-digit',
         day: '2-digit',
         hour: '2-digit',
         minute: '2-digit',
-      })
+      });
     } catch {
-      return dateStr
+      return dateStr;
     }
-  }
+  };
 
   const formatDateOnly = (dateStr: string) => {
-    if (!dateStr) return '-'
+    if (!dateStr) return '-';
     try {
-      const date = new Date(dateStr)
-      return date.toLocaleDateString('ko-KR')
+      const date = new Date(dateStr);
+      return date.toLocaleDateString('ko-KR');
     } catch {
-      return dateStr
+      return dateStr;
     }
-  }
+  };
 
   return (
     <div className="overflow-x-auto">
@@ -109,7 +109,5 @@ const AdminTable = ({ records, onViewPdf }: AdminTableProps) => {
         </tbody>
       </table>
     </div>
-  )
+  );
 }
-
-export default AdminTable

@@ -1,39 +1,44 @@
-import { useEffect } from 'react'
+import { useEffect } from 'react';
 
 interface PdfModalProps {
-  isOpen: boolean
-  onClose: () => void
-  pdfUrl: string
-  title?: string
+  isOpen: boolean;
+  onClose: () => void;
+  pdfUrl: string;
+  title?: string;
 }
 
-const PdfModal = ({ isOpen, onClose, pdfUrl, title = 'PDF 미리보기' }: PdfModalProps) => {
+export default function PdfModal({
+  isOpen,
+  onClose,
+  pdfUrl,
+  title = 'PDF 미리보기',
+}: PdfModalProps) {
   // ESC 키로 모달 닫기
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
-        onClose()
+        onClose();
       }
-    }
+    };
 
-    document.addEventListener('keydown', handleEscape)
-    return () => document.removeEventListener('keydown', handleEscape)
-  }, [isOpen, onClose])
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [isOpen, onClose]);
 
   // 모달 열릴 때 body 스크롤 방지
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = 'hidden'
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = 'unset'
+      document.body.style.overflow = 'unset';
     }
 
     return () => {
-      document.body.style.overflow = 'unset'
-    }
-  }, [isOpen])
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
 
-  if (!isOpen) return null
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
@@ -41,6 +46,14 @@ const PdfModal = ({ isOpen, onClose, pdfUrl, title = 'PDF 미리보기' }: PdfMo
       <div
         className="absolute inset-0 bg-black bg-opacity-50"
         onClick={onClose}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            onClose();
+          }
+        }}
+        aria-label="배경 클릭으로 모달 닫기"
       />
 
       {/* 모달 컨텐츠 */}
@@ -62,12 +75,7 @@ const PdfModal = ({ isOpen, onClose, pdfUrl, title = 'PDF 미리보기' }: PdfMo
               className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded transition-colors"
               aria-label="닫기"
             >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -89,7 +97,5 @@ const PdfModal = ({ isOpen, onClose, pdfUrl, title = 'PDF 미리보기' }: PdfMo
         </div>
       </div>
     </div>
-  )
+  );
 }
-
-export default PdfModal

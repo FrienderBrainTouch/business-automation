@@ -1,65 +1,64 @@
-import { useState, useEffect } from 'react'
-import AdminTable from '../components/AdminTable'
-import PdfModal from '../components/PdfModal'
-import { fetchSubmissionList, SubmissionRecord } from '../utils/api'
+import { useState, useEffect } from 'react';
+import { AdminTable, PdfModal } from '../components/admin';
+import { fetchSubmissionList, SubmissionRecord } from '../utils/api';
 
-const Admin = () => {
-  const [records, setRecords] = useState<SubmissionRecord[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState('')
+export default function Admin() {
+  const [records, setRecords] = useState<SubmissionRecord[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState('');
   const [selectedPdf, setSelectedPdf] = useState<{
-    url: string
-    title: string
-  } | null>(null)
+    url: string;
+    title: string;
+  } | null>(null);
 
   // 초기 데이터 로드
   useEffect(() => {
-    loadRecords()
-  }, [])
+    loadRecords();
+  }, []);
 
   const loadRecords = async () => {
-    setIsLoading(true)
-    setError('')
+    setIsLoading(true);
+    setError('');
 
     try {
-      const response = await fetchSubmissionList()
+      const response = await fetchSubmissionList();
 
       if (response.ok && response.data) {
-        setRecords(response.data)
+        setRecords(response.data);
       } else {
-        setError(response.error || '데이터를 불러올 수 없습니다.')
+        setError(response.error || '데이터를 불러올 수 없습니다.');
       }
     } catch (err) {
-      setError('네트워크 오류가 발생했습니다.')
-      console.error('Load records error:', err)
+      setError('네트워크 오류가 발생했습니다.');
+      console.error('Load records error:', err);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
-  const handleViewPdf = (record: SubmissionRecord, index: number) => {
+  const handleViewPdf = (record: SubmissionRecord, _index: number) => {
     if (record.pdfViewUrl) {
       setSelectedPdf({
         url: record.pdfViewUrl,
         title: `${record.companyName || record.name} - 사업계획서 사전진단`,
-      })
+      });
     }
-  }
+  };
 
   const handleClosePdfModal = () => {
-    setSelectedPdf(null)
-  }
+    setSelectedPdf(null);
+  };
 
   const handleRefresh = () => {
-    loadRecords()
-  }
+    loadRecords();
+  };
 
   // 통계 계산
   const stats = {
     total: records.length,
-    sent: records.filter(r => r.sentFlag).length,
-    pending: records.filter(r => !r.sentFlag).length,
-  }
+    sent: records.filter((r) => r.sentFlag).length,
+    pending: records.filter((r) => !r.sentFlag).length,
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -68,12 +67,8 @@ const Admin = () => {
         <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-gray-800">
-                관리자 대시보드
-              </h1>
-              <p className="text-sm text-gray-600 mt-1">
-                사업계획서 사전진단 제출 현황
-              </p>
+              <h1 className="text-2xl font-bold text-gray-800">관리자 대시보드</h1>
+              <p className="text-sm text-gray-600 mt-1">사업계획서 사전진단 제출 현황</p>
             </div>
             <button
               onClick={handleRefresh}
@@ -110,8 +105,18 @@ const Admin = () => {
                 <p className="text-3xl font-bold text-gray-800 mt-1">{stats.total}</p>
               </div>
               <div className="p-3 bg-blue-100 rounded-full">
-                <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                <svg
+                  className="w-8 h-8 text-blue-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                  />
                 </svg>
               </div>
             </div>
@@ -124,8 +129,18 @@ const Admin = () => {
                 <p className="text-3xl font-bold text-green-600 mt-1">{stats.sent}</p>
               </div>
               <div className="p-3 bg-green-100 rounded-full">
-                <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <svg
+                  className="w-8 h-8 text-green-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
                 </svg>
               </div>
             </div>
@@ -138,8 +153,18 @@ const Admin = () => {
                 <p className="text-3xl font-bold text-yellow-600 mt-1">{stats.pending}</p>
               </div>
               <div className="p-3 bg-yellow-100 rounded-full">
-                <svg className="w-8 h-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <svg
+                  className="w-8 h-8 text-yellow-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
                 </svg>
               </div>
             </div>
@@ -195,7 +220,5 @@ const Admin = () => {
         />
       )}
     </div>
-  )
+  );
 }
-
-export default Admin

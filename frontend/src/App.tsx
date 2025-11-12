@@ -1,8 +1,7 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import Apply from './pages/Apply'
-import Admin from './pages/Admin'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Admin, Apply } from './pages/index';
 
-function App() {
+export default function App() {
   return (
     <Router>
       <Routes>
@@ -11,7 +10,5 @@ function App() {
         <Route path="/admin" element={<Admin />} />
       </Routes>
     </Router>
-  )
+  );
 }
-
-export default App
