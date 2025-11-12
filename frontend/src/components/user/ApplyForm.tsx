@@ -74,24 +74,6 @@ export default function ApplyForm({ onSubmit, isSubmitting }: ApplyFormProps) {
             />
           </div>
 
-          {/* <div>
-            <label className="label" htmlFor="businessNumber">
-              사업자 등록번호 <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              id="businessNumber"
-              name="businessNumber"
-              required
-              className="input-field"
-              value={formData.businessNumber}
-              onChange={handleChange}
-              placeholder="123-45-67890"
-              pattern="[0-9]{3}-[0-9]{2}-[0-9]{5}"
-            />
-            <p className="text-xs text-gray-500 mt-1">형식: 000-00-00000</p>
-          </div> */}
-
           <div>
             <label className="label" htmlFor="email">
               이메일 <span className="text-red-500">*</span>
@@ -261,46 +243,6 @@ export default function ApplyForm({ onSubmit, isSubmitting }: ApplyFormProps) {
             />
             <p className="text-xs text-gray-500 mt-1">현재: {formData.goals.length}자/50자</p>
           </div>
-
-          {/* <div>
-            <label className="label" htmlFor="targetMarket">
-              목표 시장 및 고객층 <span className="text-red-500">*</span>
-            </label>
-            <textarea
-              id="targetMarket"
-              name="targetMarket"
-              required
-              rows={4}
-              className="input-field resize-none"
-              value={formData.targetMarket}
-              onChange={handleChange}
-              placeholder="목표로 하는 시장과 고객층에 대해 설명해 주세요."
-              minLength={50}
-            />
-            <p className="text-xs text-gray-500 mt-1">
-              현재: {formData.targetMarket.length}자/50자
-            </p>
-          </div>
-
-          <div>
-            <label className="label" htmlFor="competitiveness">
-              경쟁력 및 차별성 <span className="text-red-500">*</span>
-            </label>
-            <textarea
-              id="competitiveness"
-              name="competitiveness"
-              required
-              rows={4}
-              className="input-field resize-none"
-              value={formData.competitiveness}
-              onChange={handleChange}
-              placeholder="기존 경쟁사 대비 귀사의 경쟁력과 차별점을 설명해 주세요."
-              minLength={50}
-            />
-            <p className="text-xs text-gray-500 mt-1">
-              현재: {formData.competitiveness.length}자/50자
-            </p>
-          </div> */}
         </div>
       </div>
 
