@@ -1,5 +1,5 @@
 import { useState, FormEvent } from 'react';
-import { ApplicationData } from '../types/dto';
+import { ApplicationData } from '../../types/dto';
 
 interface ApplyFormProps {
   onSubmit: (data: ApplicationData) => Promise<void>;

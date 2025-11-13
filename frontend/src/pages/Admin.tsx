@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 // import { fetchSubmissionList, SubmissionRecord } from '../utils/api';
-import { SubmissionRecord } from '../components/types/dto';
+import { SubmissionRecord } from '../types/dto';
 import { AdminTable, PdfModal, Auth } from '../components/admin';
 
 export default function Admin() {
