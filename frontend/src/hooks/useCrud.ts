@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import api from '../utils/axios';
-import type { ApiResponse } from '../utils/api';
+import api from '../services/axios';
+import type { ApiResponse } from '../types/dto';
 
 /**
  * Generic CRUD hooks factory.

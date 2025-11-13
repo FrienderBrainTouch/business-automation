@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ApplyForm, SuccessMessage } from '../components/user';
-import { ApplicationData } from '../utils/api';
+import { ApplicationData } from '../types/dto';
 // import { submitApplication, ApplicationData } from '../utils/api';
 
 export default function Apply() {

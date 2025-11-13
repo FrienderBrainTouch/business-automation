@@ -1,4 +1,4 @@
-import { SubmissionRecord } from '../../utils/api';
+import { SubmissionRecord } from '../../types/dto';
 
 interface AdminTableProps {
   records: SubmissionRecord[];
